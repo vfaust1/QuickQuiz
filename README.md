@@ -7,7 +7,7 @@ Application de quiz interactive développée en Java avec JavaFX. Le jeu propose
 ## ✨ Fonctionnalités
 
 ### 🎯 Modes de jeu
-- **Mode Libre** : Choisissez le nombre de questions (10, 20, 30, 40, 50) et prenez votre temps
+- **Mode Libre** : Choisissez le nombre de questions (de 1 à 50) et prenez votre temps pour y répondre
 - **Mode Chrono** : 60 secondes pour répondre au maximum de questions
   - +2 secondes par bonne réponse
   - -2 secondes par mauvaise réponse
@@ -18,8 +18,10 @@ Application de quiz interactive développée en Java avec JavaFX. Le jeu propose
 - Jeux Vidéo
 - Manga
 - Musique
-- Littérature
-- Mode Aléatoire (toutes catégories mélangées)
+- Animation
+- Series TV
+- Bande Dessinée
+- Aléatoire (toutes catégories mélangées)
 
 ### 🏆 Système de classement
 - **Podium visuel** avec top 3 (médailles or/argent/bronze)
@@ -40,13 +42,6 @@ Application de quiz interactive développée en Java avec JavaFX. Le jeu propose
 ### Prérequis
 - Java 17 ou supérieur
 - Maven 3.6 ou supérieur
-
-### Installation de Maven
-1. Téléchargez Maven depuis [https://maven.apache.org/download.cgi](https://maven.apache.org/download.cgi)
-2. Extrayez dans `C:\Program Files\apache-maven-3.9.9\`
-3. Configurez les variables d'environnement :
-   - `MAVEN_HOME` = `C:\Program Files\apache-maven-3.9.9`
-   - Ajoutez `%MAVEN_HOME%\bin` au PATH
 
 ### Compilation et lancement
 ```bash
