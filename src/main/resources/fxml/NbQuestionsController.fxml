@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quizgame.controllers.NbQuestionsController">
+   <children>
+      <Label text="Mode Classique" styleClass="page-title">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      
+      <VBox alignment="CENTER" spacing="10.0">
+         <Label text="Combien de questions voulez-vous ?" styleClass="field-label">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </Label>
+         <TextField fx:id="txtNbQuestions" styleClass="number-field" text="10">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </TextField>
+         <Label text="(Entre 1 et 50)" styleClass="hint-label">
+            <font>
+               <Font size="12.0" />
+            </font>
+         </Label>
+      </VBox>
+      
+      <Button fx:id="btnContinuer" mnemonicParsing="false" onAction="#onContinuerClick" styleClass="continue-button" text="Continuer">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      
+      <Button fx:id="btnRetour" mnemonicParsing="false" onAction="#onRetourClick" styleClass="menu-button" text="Retour">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+   </children>
+   <padding>
+      <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+   </padding>
+</VBox>

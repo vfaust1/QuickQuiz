@@ -1,0 +1,910 @@
+/* Bordure verte pour le thème sélectionné, sans changer le fond */
+.theme-selected {
+    -fx-border-color: #00FF00 !important;
+    -fx-border-width: 2px !important;
+}
+/* Suppression radicale de la bordure bleue du Spinner dans la box */
+.add-profile-box .text-field:focused,
+.add-profile-box .spinner:focused,
+.add-profile-box .spinner .text-field:focused,
+.add-profile-box .spinner:focused .text-field {
+    -fx-effect: none;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+}
+/* Suppression stricte de la bordure bleue du Spinner lors du focus sans masquer le texte */
+.spinner:focused,
+.spinner .text-field:focused,
+.spinner:focused .text-field {
+    -fx-effect: none;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-border-color: transparent;
+}
+/* Suppression de la bordure bleue sur le champ texte du Spinner lors du focus */
+Spinner .text-field:focused {
+    -fx-effect: none;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-border-color: transparent;
+}
+/* Suppression de la surbrillance bleue sur le Spinner (focus) */
+Spinner:focused, .text-field:focused {
+    -fx-effect: none;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+/* Correction : Les boutons de thème qui ont aussi menu-button ont la bordure bleue comme les boutons du menu principal,
+   mais la couleur du thème comme fond intérieur. */
+.theme-button.menu-button {
+    -fx-background-radius: 16, 14;
+    -fx-border-radius: 16;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 24;
+    -fx-min-height: 50px;
+    -fx-pref-height: 70px;
+    -fx-cursor: hand;
+    -fx-background-insets: 0, 2;
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+    -fx-min-width: 200px;
+    -fx-pref-width: 400px;
+    -fx-max-width: 650px;
+}
+.theme-button.menu-button.cinema-theme {
+    -fx-background-color: #2196F3, #ff0000;
+    -fx-text-fill: white;
+}
+.theme-button.menu-button.football-theme {
+    -fx-background-color: #2196F3, #15c51c;
+    -fx-text-fill: white;
+}
+.theme-button.menu-button.jeuxvideo-theme {
+    -fx-background-color: #2196F3, #007aff;
+    -fx-text-fill: white;
+}
+.theme-button.menu-button.manga-theme {
+    -fx-background-color: #2196F3, white;
+    -fx-text-fill: black;
+}
+.theme-button.menu-button.musique-theme {
+    -fx-background-color: #2196F3, #ffcc00;
+    -fx-text-fill: black;
+}
+.theme-button.menu-button.seriestv-theme {
+    -fx-background-color: #2196F3, #ff9500;
+    -fx-text-fill: white;
+}
+.theme-button.menu-button.animation-theme {
+    -fx-background-color: #2196F3, #5ac8fa;
+    -fx-text-fill: black;
+}
+.theme-button.menu-button.bande-dessinee-theme {
+    -fx-background-color: #2196F3, #8e8e93;
+    -fx-text-fill: white;
+}
+ .theme-button.menu-button.random-theme-button {
+    -fx-text-fill: white;
+    -fx-background-color: #2196F3, #E91E63;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 16, 14;
+} 
+    .theme-button.menu-button.nb-questions-button {
+        -fx-background-color: #2196F3, #333333;
+        -fx-text-fill: white;
+    }
+/* Suppression de l'halo bleu autour des boutons au focus */
+.button:focused {
+    -fx-effect: none;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+/* Style général de l'application */
+.root {
+    -fx-background-color: #ffffff;
+    -fx-font-family: "Arial", sans-serif;
+}
+
+/* Styles pour les titres de page */
+.page-title {
+    -fx-font-size: 74px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* Bordure bleue dédiée aux boutons principaux du menu */
+.menu-button {
+    /* Désactive la bordure classique pour éviter l'aliasing */
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+    -fx-effect: none;
+    /* Simule une bordure bleue via des calques de fond pour des coins nets */
+    -fx-background-color: #2196F3, #e6e6e6; /* 1er: "bordure" bleue, 2e: fond bouton */
+    -fx-background-insets: 0, 2;           /* épaisseur apparente de la bordure = 2px */
+    -fx-background-radius: 16, 14;         /* rayon bordure et rayon fond alignés */
+
+    /* Tailles et typo cohérentes avec les boutons du Menu */
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 24; /* hauteur ~60 avec le rayon 16 pour un look identique */
+    -fx-min-height: 40px;
+    -fx-pref-height: 60px;
+    -fx-cursor: hand;
+}
+
+.menu-button:hover {
+    -fx-background-color: #1976D2, #e6e6e6;
+}
+
+/* Etat pressé pour plus de cohérence visuelle */
+.menu-button:pressed {
+    -fx-background-color: #1565C0, #dddddd;
+}
+
+/* Préserver la bordure bleue quand le bouton a le focus */
+.menu-button:focused {
+    -fx-effect: none;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-color: #2196F3, #e6e6e6;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 16, 14;
+}
+
+.menu-button:hover:focused {
+    -fx-background-color: #1976D2, #e6e6e6;
+}
+
+/* Bouton par défaut (ENTER) doit garder la même bordure bleue */
+.menu-button:default {
+    -fx-background-color: #2196F3, #e6e6e6;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 16, 14;
+}
+
+.menu-button:default:focused {
+    -fx-background-color: #1976D2, #e6e6e6;
+}
+
+/* Bouton pressé/armé (via clavier ou souris) */
+.menu-button:armed {
+    -fx-background-color: #1565C0, #dddddd;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 16, 14;
+}
+
+.menu-button:focused:armed {
+    -fx-background-color: #1565C0, #dddddd;
+}
+
+/* Boutons de thème */
+.theme-button {
+    -fx-background-radius: 5px;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+    -fx-border-width: 2px;
+    -fx-border-color: black;
+}
+
+/* Couleurs spécifiques pour chaque thème */
+.cinema-theme {
+    -fx-background-color: #ff0000; -fx-border-color: #ff0000;
+}
+
+.football-theme {
+    -fx-background-color: #34c759; -fx-border-color: #34c759;
+}
+
+.jeuxvideo-theme {
+    -fx-background-color: #007aff; -fx-border-color: #007aff;
+}
+
+.manga-theme {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-border-color: black;
+}
+
+.musique-theme {
+    -fx-background-color: #ffcc00; -fx-border-color: #ffcc00; -fx-text-fill: black;
+}
+
+.seriestv-theme {
+    -fx-background-color: #ff9500; -fx-border-color: #ff9500;
+}
+
+.animation-theme {
+    -fx-background-color: #5ac8fa; -fx-border-color: #5ac8fa; -fx-text-fill: black;
+}
+
+.bande-dessinee-theme {
+    -fx-background-color: #8e8e93; -fx-border-color: #8e8e93;
+}
+
+
+
+.theme-button:hover, .random-theme-button:hover {
+    -fx-opacity: 0.8;
+}
+
+/* Bouton retour */
+.back-button {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-border-radius: 16px;
+    -fx-font-size: 14px;
+}
+
+.back-button:hover {
+    -fx-background-color: #f0f0f0;
+}
+
+
+.theme-button:pressed {
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+/* Bouton aléatoire */
+.random-theme-button {
+    -fx-background-color: #2196F3, #E91E63;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 16, 14;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
+    -fx-min-width: 100px;
+    -fx-pref-width: 100px;
+    -fx-min-height: 40px;
+}
+
+/* Thème sélectionné */
+.theme-selected.menu-button.cinema-theme {
+    -fx-background-color: #00FF00, #ff0000;  /* Bordure verte à la place de bleue pour Cinema */
+}
+
+.theme-selected.menu-button.football-theme {
+    -fx-background-color: #00FF00, #34c759;  /* Bordure verte à la place de bleue pour Football */
+}
+
+.theme-selected.menu-button.jeuxvideo-theme {
+    -fx-background-color: #00FF00, #007aff;  /* Bordure verte à la place de bleue pour Jeux Video */
+}
+
+.theme-selected.menu-button.manga-theme {
+    -fx-background-color: #00FF00, white;  /* Bordure verte à la place de bleue pour Manga */
+}
+
+.theme-selected.menu-button.musique-theme {
+    -fx-background-color: #00FF00, #ffcc00;  /* Bordure verte à la place de bleue pour Musique */
+}
+
+.theme-selected.menu-button.seriestv-theme {
+    -fx-background-color: #00FF00, #ff9500;  /* Bordure verte à la place de bleue pour Series TV */
+}
+
+.theme-selected.menu-button.animation-theme {
+    -fx-background-color: #00FF00, #5ac8fa;  /* Bordure verte à la place de bleue pour Animation */
+}
+
+.theme-selected.menu-button.bande-dessinee-theme {
+    -fx-background-color: #00FF00, #8e8e93;  /* Bordure verte à la place de bleue pour Bande Dessinée */
+}
+
+.theme-selected.menu-button.random-theme-button {
+    -fx-background-color: #00FF00, #E91E63;  /* Bordure verte à la place de bleue pour Aléatoire */
+}
+
+
+/* Boutons de mode */
+
+.chrono-mode {
+    -fx-background-color: #FF9800;
+}
+
+.chrono-mode:hover {
+    -fx-background-color: #F57C00;
+}
+
+/* Descriptions des modes */
+.mode-description-title {
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.mode-description {
+    -fx-text-fill: #666666;
+    -fx-font-size: 12px;
+}
+
+/* Bouton retour aligné sur menu-button */
+.back-button {
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+    -fx-effect: none;
+    -fx-background-color: #2196F3, #e6e6e6;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 16, 14;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 24;
+    -fx-min-height: 40px;
+    -fx-pref-height: 60px;
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+    /* largeur alignée sur les boutons du menu */
+    -fx-min-width: 300px;
+    -fx-pref-width: 300px;
+}
+
+.back-button:hover {
+    -fx-background-color: #1976D2, #e6e6e6;
+}
+
+/* Bouton valider aligné sur menu-button (sans fond vert) */
+.validate-button {
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+    -fx-effect: none;
+    -fx-background-color: #2196F3, #e6e6e6;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 16, 14;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 24;
+    -fx-min-height: 40px;
+    -fx-pref-height: 60px;
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+    /* largeur alignée sur les boutons du menu */
+    -fx-min-width: 300px;
+    -fx-pref-width: 300px;
+}
+
+.validate-button:hover {
+    -fx-background-color: #1976D2, #e6e6e6;
+}
+
+
+
+.radio-button:hover {
+    -fx-text-fill: #2E8B57;
+    -fx-font-weight: bold;
+}
+
+.radio-button:selected {
+    -fx-text-fill: #2E8B57;
+    -fx-font-weight: bold;
+}
+
+.radio-button:disabled {
+    -fx-text-fill: #CCCCCC;
+    -fx-cursor: default;
+}
+
+/* Champs de texte */
+.text-field {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #CCCCCC;
+    -fx-border-width: 1px;
+    -fx-font-size: 14px;
+    -fx-padding: 12px;
+}
+
+.text-field:focused {
+    -fx-border-color: #2196F3;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(33,150,243,0.3), 3, 0, 0, 0);
+}
+
+/* Styles pour les champs de saisie */
+.input-field {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #CCCCCC;
+    -fx-border-width: 1px;
+    -fx-font-size: 16px;
+    -fx-padding: 12px;
+}
+
+.number-field {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #CCCCCC;
+    -fx-border-width: 1px;
+    -fx-font-size: 16px;
+    -fx-padding: 8px;
+    -fx-alignment: center;
+}
+
+/* Labels pour les champs */
+.field-label {
+    -fx-text-fill: #666666;
+    -fx-font-size: 16px;
+    -fx-font-weight: normal;
+}
+
+.hint-label {
+    -fx-text-fill: #999999;
+    -fx-font-size: 12px;
+}
+
+/* Labels */
+.label {
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+}
+
+/* ScrollPane */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: #CCCCCC;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+}
+
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: #F5F5F5;
+    -fx-background-radius: 5px;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #4CAF50;
+    -fx-background-radius: 5px;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #45a049;
+}
+
+/* VBox pour le classement */
+.vbox {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-padding: 20px;
+}
+
+/* Bannière de thème */
+.theme-banner {
+    -fx-background-color: #F44336;
+    -fx-background-radius: 8px;
+    -fx-padding: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
+
+.theme-banner-text {
+    -fx-text-fill: white;
+    -fx-font-size: 72px;
+    -fx-font-weight: bold;
+    -fx-text-transform: uppercase;
+}
+
+/* Styles pour les questions */
+.question-info {
+    -fx-text-fill: #333333;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.question-text {
+    -fx-text-fill: #333333;
+    -fx-font-size: 16px;
+    -fx-font-weight: normal;
+}
+
+/* Boutons de réponse */
+.answer-button {
+    -fx-background-color: white;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-border-color: #CCCCCC;
+    -fx-border-width: 1px;
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 2, 0, 0, 1);
+}
+
+.answer-button:hover {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #2196F3;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
+
+.answer-button:selected {
+    -fx-background-color: #E3F2FD;
+    -fx-border-color: #2196F3;
+    -fx-border-width: 2px;
+    -fx-text-fill: #1976D2;
+    -fx-font-weight: bold;
+}
+
+/* Bouton quitter */
+.quit-button {
+    -fx-background-color: #757575;
+    -fx-background-radius: 16px;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
+
+.quit-button:hover {
+    -fx-background-color: #616161;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 2);
+}
+
+/* Bouton continuer */
+.continue-button {
+    -fx-background-color: #4CAF50;
+    -fx-background-radius: 16px;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
+
+.continue-button:hover {
+    -fx-background-color: #45a049;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 2);
+}
+
+/* Bouton menu principal */
+.main-menu-button {
+    -fx-background-color: #2196F3;
+    -fx-background-radius: 16px;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
+
+.main-menu-button:hover {
+    -fx-background-color: #1976D2;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 2);
+}
+
+/* Styles pour les résultats */
+.congratulations-title {
+    -fx-text-fill: #4CAF50;
+    -fx-font-size: 60px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Verdana";
+    -fx-effect: dropshadow(one-pass-box, rgba(255, 255, 255, 0.8), 1, 1.0, 1, 1);
+}
+
+.score-text {
+    -fx-text-fill: #333333;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+.theme-text {
+    -fx-text-fill: #000000;
+    -fx-font-size: 22px;
+}
+
+/* Styles pour le classement */
+.small-button {
+    -fx-background-color: #757575;
+    -fx-background-radius: 6px;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 2, 0, 0, 1);
+}
+
+.small-button:hover {
+    -fx-background-color: #616161;
+}
+
+.small-button:disabled {
+    -fx-background-color: #CCCCCC;
+    -fx-text-fill: #999999;
+    -fx-cursor: default;
+}
+
+.disabled-button {
+    -fx-background-color: #CCCCCC;
+    -fx-text-fill: #999999;
+    -fx-cursor: default;
+}
+
+/* Styles pour le podium */
+.podium-container {
+    -fx-alignment: center;
+    -fx-spacing: 0px;
+    -fx-background-image: url('../podium.png');
+    -fx-background-size: 350px 180px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-min-width: 350px;
+    -fx-min-height: 180px;
+    -fx-max-width: 350px;
+    -fx-max-height: 180px;
+}
+
+.podium-step {
+    -fx-alignment: center;
+    -fx-spacing: 2px;
+    -fx-background-color: transparent;
+}
+
+.podium-step-1 {
+    -fx-background-color: transparent;
+    -fx-padding: 0px;
+    -fx-min-width: 100px;
+    -fx-min-height: 30px;
+    -fx-translate-y: 15px;
+}
+
+.podium-step-2 {
+    -fx-background-color: transparent;
+    -fx-padding: 0px;
+    -fx-min-width: 100px;
+    -fx-min-height: 30px;
+    -fx-translate-y: 25px;
+}
+
+.podium-step-3 {
+    -fx-background-color: transparent;
+    -fx-padding: 0px;
+    -fx-min-width: 100px;
+    -fx-min-height: 30px;
+    -fx-translate-y: 35px;
+}
+
+.podium-name {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.9), 1, 0, 0, 1);
+}
+
+/* Couleur OR pour la 1ère place */
+.podium-step-1 .podium-name {
+    -fx-text-fill: #FFD700 !important; /* Or */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 3, 0, 0, 1) !important;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px !important; /* Agrandi */
+}
+
+.podium-step-1 .podium-score {
+    -fx-text-fill: #FFD700 !important; /* Or */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 3, 0, 0, 1) !important;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px !important; /* Agrandi */
+}
+
+/* Couleur ARGENT pour la 2ème place */
+.podium-step-2 .podium-name {
+    -fx-text-fill: #C0C0C0 !important; /* Argent */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 3, 0, 0, 1) !important;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px !important; /* Agrandi */
+}
+
+.podium-step-2 .podium-score {
+    -fx-text-fill: #C0C0C0 !important; /* Argent */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 3, 0, 0, 1) !important;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px !important; /* Agrandi */
+}
+
+/* Couleur BRONZE pour la 3ème place */
+.podium-step-3 .podium-name {
+    -fx-text-fill: #CD7F32 !important; /* Bronze */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 3, 0, 0, 1) !important;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px !important; /* Agrandi */
+}
+
+.podium-step-3 .podium-score {
+    -fx-text-fill: #CD7F32 !important; /* Bronze */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 3, 0, 0, 1) !important;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px !important; /* Agrandi */
+}
+
+.podium-score {
+    -fx-font-weight: normal;
+    -fx-font-size: 12px;
+}
+
+.podium-position {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.9), 1, 0, 0, 1);
+}
+
+/* ScrollPane pour le classement */
+.classement-scroll {
+    -fx-background-color: rgba(0, 0, 0, 0.25); /* Fond sombre semi-transparent comme la liste des profils */
+    -fx-background-radius: 10;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-radius: 10;
+}
+
+.classement-scroll .viewport {
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+}
+
+/* Style pour les lignes du classement */
+.classement-scroll .label {
+    -fx-text-fill: white; /* Texte blanc comme la liste des profils */
+    -fx-font-size: 16px;
+    -fx-padding: 10px;
+}
+
+
+
+/* Style pour les alertes */
+.alert {
+    -fx-background-color: white;
+    -fx-border-color: #CCCCCC;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.alert .header-panel {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
+/* Spécifique: boîte de dialogue des règles avec fond image -> header transparent */
+.rules-dialog .header-panel {
+    -fx-background-color: transparent;
+}
+
+.rules-dialog .header-panel .label {
+    -fx-text-fill: white; /* lisible sur l'image de fond */
+}
+
+/* Bouton OK blanc pour la boîte de dialogue des règles */
+.rules-dialog .button.rules-ok {
+    -fx-background-color: white;
+    -fx-text-fill: #333;
+    -fx-background-radius: 6px;
+    -fx-border-color: #CCCCCC;
+    -fx-border-radius: 6px;
+    -fx-border-width: 1px;
+}
+
+.rules-dialog .button.rules-ok:hover {
+    -fx-background-color: #f5f5f5;
+}
+
+
+.alert .content {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+/* Styles pour les boutons de mode */
+.mode-button {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 20px 40px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 2);
+    -fx-min-width: 300px;
+}
+
+.mode-button:hover {
+    -fx-background-color: #1976D2;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 8, 0, 0, 3);
+}
+
+.mode-button:pressed {
+    -fx-background-color: #1565C0;
+}
+
+.chrono-button {
+    -fx-background-color: #FF9800;
+}
+
+.chrono-button:hover {
+    -fx-background-color: #F57C00;
+}
+
+.chrono-button:pressed {
+    -fx-background-color: #EF6C00;
+}
+
+/* Styles pour les descriptions de mode */
+.mode-description {
+    -fx-text-fill: #666666;
+    -fx-font-size: 14px;
+    -fx-font-style: italic;
+}
+
+/* Styles pour la page de sélection de profil */
+.profile-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0D47A1; /* Bleu foncé pour correspondre au logo */
+}
+
+.profile-list-view {
+    -fx-background-color: rgba(0, 0, 0, 0.25); /* Fond sombre semi-transparent */
+    -fx-background-radius: 10;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-radius: 10;
+}
+
+.profile-list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-alignment: CENTER;
+    -fx-padding: 10px;
+    -fx-background-insets: 0;
+    -fx-border-width: 0 0 1 0; /* Ligne de séparation fine */
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Supprimer la ligne du dernier élément */
+.profile-list-view .list-cell:last-visible {
+    -fx-border-width: 0;
+}
+
+.profile-list-view .list-cell:filled:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1); /* Effet de survol subtil */
+}
+
+.profile-list-view .list-cell:filled:selected {
+    -fx-background-color: #2196F3; /* Utilise le bleu des boutons pour la sélection */
+    -fx-text-fill: white;
+}
+
+/* Style pour la HBox contenant le champ d'ajout de profil */
+.add-profile-box {
+    -fx-background-color: rgba(0, 0, 0, 0.25); /* Fond sombre semi-transparent */
+    -fx-background-radius: 10;
+    -fx-padding: 5px 5px 5px 15px; /* Restaure le padding d'origine */
+}
+
+/* Style pour le TextField à l'intérieur de cette HBox */
+.add-profile-box .text-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-prompt-text-fill: rgba(255, 255, 255, 0.5); /* Rendre le placeholder blanc et semi-transparent */
+}
+
+/* Suppression des contraintes de hauteur personnalisées du Spinner pour revenir au comportement par défaut */
+
+/* Style pour les images avec coins arrondis */
+#imgThemeBanner {
+    -fx-background-radius: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(2, 1, 1, 0.3), 5, 0, 0, 2);
+}

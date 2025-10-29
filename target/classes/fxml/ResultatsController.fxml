@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="80.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quizgame.controllers.ResultatsController" style="-fx-background-image: url('/img/fond.jpg'); -fx-background-size: 100% 100%; -fx-background-position: center center; -fx-background-repeat: no-repeat;">
+   <children>
+      <!-- Titre de félicitations -->
+      <Label fx:id="lblTitre" text="Félicitations" textFill="#4CAF50" styleClass="congratulations-title">
+         <VBox.margin>
+            <Insets top="-150.0" />
+         </VBox.margin>
+      </Label>
+      
+      <!-- Message de score -->
+      <VBox alignment="CENTER" spacing="20.0">
+         <children>
+            <Label fx:id="lblScore" text="Vous avez obtenu un score de 15/20" textFill="#333333" styleClass="score-text">
+               <font>
+                  <Font name="Arial Bold" size="28.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblTheme" text="sur le thème : Cinema" textFill="#000000" styleClass="theme-text">
+               <font>
+                  <Font name="Arial" size="22.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      
+      <!-- Bouton retour au menu principal -->
+      <Button fx:id="btnMenuPrincipal" mnemonicParsing="false" onAction="#onMenuPrincipalClick" styleClass="menu-button" text="Menu Principal" maxWidth="400.0" minWidth="200.0" prefWidth="400.0" />
+   </children>
+   <padding>
+      <Insets bottom="80.0" left="50.0" right="50.0" top="200.0" />
+   </padding>
+</VBox>
