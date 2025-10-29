@@ -25,3 +25,5 @@ Thumbs.db
 # txt
 # Ignore all .txt files inside the repository's `txt/` folder
 txt/*.txt
+!txt/classement_libre.txt
+!txt/classement_chrono.txt
