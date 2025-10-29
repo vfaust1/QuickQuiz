@@ -2,6 +2,8 @@ package quizgame;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -14,7 +16,7 @@ public class QuestionCsvLoader {
 
     public static ArrayList<Question> chargerDepuisCsv(String cheminCsv) throws IOException {
         ArrayList<Question> questions = new ArrayList<>();
-        try (BufferedReader br = Files.newBufferedReader(Paths.get(cheminCsv), StandardCharsets.UTF_8)) {
+        try (BufferedReader br = openBufferedReader(cheminCsv)) {
             String line;
             while ((line = br.readLine()) != null) {
                 // Ignore lignes vides
@@ -79,6 +81,26 @@ public class QuestionCsvLoader {
             }
         }
         return questions;
+    }
+
+    /**
+     * Ouvre un BufferedReader pour un fichier CSV en essayant d'abord
+     * de le charger depuis le classpath (src/main/resources), puis
+     * en retombant sur le système de fichiers si la ressource n'existe pas.
+     *
+     * @param cheminCsv chemin relatif (ex: "csv/cinema.csv" ou un chemin absolu)
+     * @return BufferedReader prêt à lire en UTF-8
+     * @throws IOException si le fallback fichier échoue
+     */
+    private static BufferedReader openBufferedReader(String cheminCsv) throws IOException {
+        // Essayer la ressource dans le classpath (packaged inside JAR under /csv/...)
+        InputStream is = QuestionCsvLoader.class.getClassLoader().getResourceAsStream(cheminCsv);
+        if (is != null) {
+            return new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+        }
+
+        // Fallback: essayer en tant que chemin sur le système de fichiers
+        return Files.newBufferedReader(Paths.get(cheminCsv), StandardCharsets.UTF_8);
     }
     
     /**
