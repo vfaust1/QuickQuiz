@@ -23,6 +23,5 @@ Thumbs.db
 *.ear
 
 # txt
-# Ignore all .txt files inside the repository's `txt/` folder
-.txt/
-txt/*.txt
+# Ignore the entire txt/ folder (local text assets, classements, etc.)
+txt/
