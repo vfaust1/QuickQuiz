@@ -1,0 +1,23 @@
+# Ignore Maven build output
+target/
+
+# Common IDE files
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# VSCode
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and generated binaries
+*.log
+*.class
+*.jar
+*.war
+*.ear
