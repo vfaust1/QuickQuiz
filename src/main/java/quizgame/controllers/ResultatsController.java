@@ -124,7 +124,12 @@ public class ResultatsController {
     
     private void loadMenuPage() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MenuController.fxml"));
+            java.net.URL menuFxml = getClass().getResource("/fxml/MenuController.fxml");
+            if (menuFxml == null) {
+                System.err.println("MenuController.fxml resource not found on classpath at /fxml/MenuController.fxml");
+                return;
+            }
+            FXMLLoader loader = new FXMLLoader(menuFxml);
             
                 // Préserver l'état de la fenêtre
                 Stage stage = (Stage) btnMenuPrincipal.getScene().getWindow();

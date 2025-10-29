@@ -86,14 +86,14 @@ public class QuestionCsvLoader {
     /**
      * Ouvre un BufferedReader pour un fichier CSV en essayant d'abord
      * de le charger depuis le classpath (src/main/resources), puis
-     * en retombant sur le système de fichiers si la ressource n'existe pas.
+     * en retombant sur le système de fichiers si la resource n'existe pas.
      *
      * @param cheminCsv chemin relatif (ex: "csv/cinema.csv" ou un chemin absolu)
      * @return BufferedReader prêt à lire en UTF-8
      * @throws IOException si le fallback fichier échoue
      */
     private static BufferedReader openBufferedReader(String cheminCsv) throws IOException {
-        // Essayer la ressource dans le classpath (packaged inside JAR under /csv/...)
+        // Essayer la resource dans le classpath (packaged inside JAR under /csv/...)
         InputStream is = QuestionCsvLoader.class.getClassLoader().getResourceAsStream(cheminCsv);
         if (is != null) {
             return new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));

@@ -6,15 +6,55 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.io.*;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Classement {
         
     public static void sauvegarderScore(String nom, String theme, String mode, int score, int nbQuestions, String cheminFichier) {
-        try (FileWriter fw = new FileWriter(cheminFichier, true)) { // true => append mode
-            String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-            // En mode chrono, on ne sauvegarde pas le nombre de questions (on met une chaîne vide ou un tiret)
-            String nbQuestionsStr = mode.equals("Chrono") ? "-" : String.valueOf(nbQuestions);
-            fw.write(nom + ";" + theme + ";" + score + ";" + nbQuestionsStr + ";" + now + "\n");
+        String filename = Paths.get(cheminFichier).getFileName().toString();
+
+        // First try: write into the project's resources folder so devs see changes in the repo.
+        // Some contributors use French folder name `src/main/resources` — try that first,
+        // then fall back to the English `src/main/resources`.
+    // Try French-named resources directory first (some contributors used `resources`),
+    // then the standard `resources` directory.
+    Path devResourceDirFr = Paths.get("src", "main", "resources", "classement");
+    Path devResourceDirEn = Paths.get("src", "main", "resources", "classement");
+    Path[] candidates = new Path[] { devResourceDirFr, devResourceDirEn };
+        for (Path devResourceDir : candidates) {
+            Path devTarget = devResourceDir.resolve(filename);
+            try {
+                if (!Files.exists(devResourceDir)) {
+                    Files.createDirectories(devResourceDir);
+                }
+                try (FileWriter fw = new FileWriter(devTarget.toFile(), true)) {
+                    String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    String nbQuestionsStr = mode.equals("Chrono") ? "-" : String.valueOf(nbQuestions);
+                    fw.write(nom + ";" + theme + ";" + score + ";" + nbQuestionsStr + ";" + now + "\n");
+                    return; // success, we're done
+                }
+            } catch (IOException ignored) {
+                // try next candidate
+            }
+        }
+
+        // Fallback: write to an external runtime-writable classement/ directory
+        try {
+            Path externalDir = Paths.get("classement");
+            if (!Files.exists(externalDir)) {
+                Files.createDirectories(externalDir);
+            }
+            Path target = externalDir.resolve(filename);
+            try (FileWriter fw = new FileWriter(target.toFile(), true)) {
+                String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                String nbQuestionsStr = mode.equals("Chrono") ? "-" : String.valueOf(nbQuestions);
+                fw.write(nom + ";" + theme + ";" + score + ";" + nbQuestionsStr + ";" + now + "\n");
+            }
         } catch (IOException e) {
             System.out.println("Erreur de sauvegarde du score : " + e.getMessage());
         }
@@ -22,23 +62,78 @@ public class Classement {
 
     public static List<String[]> chargerClassement(String cheminFichier) {
         List<String[]> scores = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(cheminFichier))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                // Ignorer les lignes vides
-                if (line.trim().isEmpty()) {
-                    continue;
+        String filename = Paths.get(cheminFichier).getFileName().toString();
+        Path external = Paths.get("classement").resolve(filename);
+
+        // If a developer resource exists at src/main/resources/classement/<filename>,
+        // use it exclusively (the user requested to show only the dev resource file).
+        Path devResourceFr = Paths.get("src", "main", "resources", "classement").resolve(filename);
+        if (Files.exists(devResourceFr)) {
+            try (BufferedReader br = Files.newBufferedReader(devResourceFr, StandardCharsets.UTF_8)) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    if (line.trim().isEmpty()) continue;
+                    String[] parts = line.split(";");
+                    if (parts.length == 5 || parts.length == 6) scores.add(parts);
                 }
-                
-                String[] parts = line.split(";");
-                // Accepter 5 colonnes (nouveau format sans mode) ou 6 colonnes (ancien format avec mode)
-                if (parts.length == 5 || parts.length == 6) {
-                    scores.add(parts);
-                }
+                return scores;
+            } catch (IOException e) {
+                System.out.println("Impossible de charger le classement depuis " + devResourceFr + " : " + e.getMessage());
+                // fall through to aggregated behavior below
             }
-        } catch (IOException e) {
-            System.out.println("Impossible de charger le classement.");
         }
+
+        // Otherwise fall back to aggregated behavior (external runtime file + packaged resource)
+        LinkedHashSet<String> rawLines = new LinkedHashSet<>();
+
+        // 1) External runtime file (classement/filename) if present
+        if (Files.exists(external)) {
+            try (BufferedReader br = Files.newBufferedReader(external, StandardCharsets.UTF_8)) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    if (line.trim().isEmpty()) continue;
+                    rawLines.add(line.trim());
+                }
+            } catch (IOException e) {
+                System.out.println("Impossible de charger le classement depuis " + external + " : " + e.getMessage());
+            }
+        }
+
+        // 2) Packaged resource under /classement/<filename> on the classpath
+        InputStream is = Classement.class.getClassLoader().getResourceAsStream("classement/" + filename);
+        if (is != null) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    if (line.trim().isEmpty()) continue;
+                    rawLines.add(line.trim());
+                }
+            } catch (IOException e) {
+                System.out.println("Impossible de charger le classement depuis la resource : " + e.getMessage());
+            }
+        }
+
+        // 3) Last fallback: try the provided cheminFichier path directly (keeps compatibility)
+        if (rawLines.isEmpty()) {
+            try (BufferedReader br = new BufferedReader(new FileReader(cheminFichier))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    if (line.trim().isEmpty()) continue;
+                    rawLines.add(line.trim());
+                }
+            } catch (IOException e) {
+                System.out.println("Impossible de charger le classement depuis le chemin fallback : " + e.getMessage());
+            }
+        }
+
+        // Parse collected raw lines into the scores list
+        for (String raw : rawLines) {
+            String[] parts = raw.split(";");
+            if (parts.length == 5 || parts.length == 6) {
+                scores.add(parts);
+            }
+        }
+
         return scores;
     }
 

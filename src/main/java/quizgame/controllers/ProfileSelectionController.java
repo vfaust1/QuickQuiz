@@ -19,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import quizgame.Classement;
 import java.util.*;
 
 public class ProfileSelectionController {
@@ -42,32 +43,64 @@ public class ProfileSelectionController {
      * Lit le fichier txt/classement.txt et retourne la liste des noms (colonne 1), uniques et triés.
      */
     private List<String> chargerNomsDepuisClassement() {
-        Path path = Paths.get("txt", "classement.txt");
-        if (!Files.exists(path)) {
-            Path alt = Paths.get("target", "classes", "txt", "classement.txt");
-            if (Files.exists(alt)) {
-                path = alt;
+        // Aggregate profile names from multiple possible classement sources so the app works
+        // whether the project stores classement under txt/, src/main/resources/, src/main/resources/
+        // or an external runtime "classement/" directory.
+        List<String> allLines = new ArrayList<>();
+        // Candidate filesystem paths
+        Path[] fsCandidates = new Path[] {
+            Paths.get("txt", "classement.txt"),
+            Paths.get("target", "classes", "txt", "classement.txt"),
+            Paths.get("src", "main", "resources", "classement", "classement_libre.txt"),
+            Paths.get("src", "main", "resources", "classement", "classement_chrono.txt"),
+            Paths.get("src", "main", "resources", "classement", "classement_libre.txt"),
+            Paths.get("src", "main", "resources", "classement", "classement_chrono.txt"),
+            Paths.get("classement", "classement_libre.txt"),
+            Paths.get("classement", "classement_chrono.txt")
+        };
+
+        for (Path p : fsCandidates) {
+            try {
+                if (Files.exists(p)) {
+                    allLines.addAll(Files.readAllLines(p, StandardCharsets.UTF_8));
+                }
+            } catch (IOException ignored) {
             }
         }
-        if (!Files.exists(path)) {
-            return Collections.emptyList();
-        }
-        Map<String, String> uniques = new LinkedHashMap<>();
-        try {
-            for (String line : Files.readAllLines(path, StandardCharsets.UTF_8)) {
-                if (line == null || line.isBlank()) continue;
-                String[] parts = line.split(";", 2);
-                if (parts.length >= 1) {
-                    String raw = parts[0].trim();
-                    if (!raw.isEmpty()) {
-                        String key = raw.toLowerCase(Locale.ROOT);
-                        uniques.putIfAbsent(key, raw);
+
+        // Try classpath resources (packaged) as a last resort
+        String[] resourceCandidates = new String[] {
+            "classement/classement_libre.txt",
+            "classement/classement_chrono.txt",
+            "txt/classement.txt"
+        };
+        for (String res : resourceCandidates) {
+            try (java.io.InputStream is = getClass().getClassLoader().getResourceAsStream(res)) {
+                if (is != null) {
+                    try (java.io.BufferedReader br = new java.io.BufferedReader(new java.io.InputStreamReader(is, StandardCharsets.UTF_8))) {
+                        String ln;
+                        while ((ln = br.readLine()) != null) {
+                            allLines.add(ln);
+                        }
                     }
                 }
+            } catch (IOException ignored) {
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return Collections.emptyList();
+        }
+
+        if (allLines.isEmpty()) return Collections.emptyList();
+
+        Map<String, String> uniques = new LinkedHashMap<>();
+        for (String line : allLines) {
+            if (line == null || line.isBlank()) continue;
+            String[] parts = line.split(";", 2);
+            if (parts.length >= 1) {
+                String raw = parts[0].trim();
+                if (!raw.isEmpty()) {
+                    String key = raw.toLowerCase(Locale.ROOT);
+                    uniques.putIfAbsent(key, raw);
+                }
+            }
         }
         List<String> names = new ArrayList<>(uniques.values());
         names.sort(Comparator.comparing(s -> s.toLowerCase(Locale.ROOT)));
@@ -210,20 +243,12 @@ public class ProfileSelectionController {
         if (!trimmed.isEmpty() && !profiles.contains(trimmed)) {
             profiles.add(trimmed);
 
-            // Ajouter le nouveau profil au fichier classement.txt
+            // Ajouter le nouveau profil en utilisant la classe `Classement` pour gérer l'emplacement
             try {
-                Path path = Paths.get("txt/classement.txt");
-                if (!Files.exists(path)) {
-                    path = Paths.get("target/classes/txt/classement.txt");
-                    if (!Files.exists(path)) {
-                        Files.createDirectories(path.getParent());
-                        Files.createFile(path);
-                    }
-                }
-                // On ajoute une ligne avec le score 0 par défaut, format: nom;theme;mode;score;nbQuestions;date
-                String now = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-                Files.writeString(path, trimmed + ";Aleatoire;Classique;0;0;" + now + "\n", StandardCharsets.UTF_8, java.nio.file.StandardOpenOption.APPEND);
-            } catch (IOException e) {
+                // This will write into src/main/resources/classement or src/main/resources/classement when possible,
+                // otherwise into the runtime "classement/" directory.
+                Classement.sauvegarderScore(trimmed, "Aleatoire", "Classique", 0, 0, "classement_libre.txt");
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

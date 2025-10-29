@@ -473,8 +473,11 @@ public class JeuController {
             chronoTimeline.stop();
         }
         
-        // Sauvegarder le score dans le fichier approprié selon le mode
-        String fichierClassement = modeChrono ? "txt/classement_chrono.txt" : "txt/classement_libre.txt";
+    // Sauvegarder le score dans le fichier approprié selon le mode
+    // Use classement/ as the external, writable location. Classement.sauvegarderScore
+    // will still work if given a path; it extracts the filename and writes to
+    // the runtime "classement/" directory.
+    String fichierClassement = modeChrono ? "src/main/resources/classement/classement_chrono.txt" : "src/main/resources/classement/classement_libre.txt";
         Classement.sauvegarderScore(nomJoueur, theme, mode, score, questions.size(), fichierClassement);
         
         // Charger la page de résultats
