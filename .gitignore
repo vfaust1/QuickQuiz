@@ -21,3 +21,7 @@ Thumbs.db
 *.jar
 *.war
 *.ear
+
+# txt
+# Ignore all .txt files inside the repository's `txt/` folder
+txt/*.txt
